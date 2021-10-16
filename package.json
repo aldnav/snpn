@@ -1,0 +1,47 @@
+{
+  "name": "snpn",
+  "version": "1.0.0",
+  "source": "src/index.js",
+  "main": "dist/main.js",
+  "bin": {
+    "snpn": "./dist/main.js"
+  },
+  "type": "module",
+  "scripts": {
+    "watch": "parcel watch",
+    "build": "parcel build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "parcel": "latest"
+  },
+  "targets": {
+    "main": {
+      "context": "node",
+      "engines": {
+        "node": ">=14"
+      }
+    }
+  },
+  "description": "CLI for service names port numbers",
+  "dependencies": {
+    "commander": "^8.2.0",
+    "csv-parse": "^4.16.3",
+    "pouchdb": "^7.2.2",
+    "pouchdb-find": "^7.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aldnav/snpn.git"
+  },
+  "keywords": [
+    "ports",
+    "service"
+  ],
+  "author": "Aldrin A. Navarro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aldnav/snpn/issues"
+  },
+  "homepage": "https://github.com/aldnav/snpn#readme"
+}
