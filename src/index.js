@@ -16,7 +16,7 @@ cli.name("snpn");
 cli.usage("<command>");
 
 cli.command('p')
-    .argument('[port]', 'Port number to search for assigned services.')
+    .argument('<port...>', 'Port number to search for assigned services.')
     .description(
         'Retrieve a list of services commonly assigned to the port'
     )
