@@ -8,25 +8,37 @@ const NOT_PROVIDED = '';
 
 let initDb = (data) => {
     let db = new PouchDB(__dirname + '/snpndb');
-    let services = [];
-    for (let index = 0; index < data.length; index++) {
-        const el = data[index];
-        services.push({
-            serviceName: el['Service Name'] ?? NOT_PROVIDED,
-            servicePort: parseInt(el['Port Number']) ?? NOT_PROVIDED,
-            transportProtocol: el['Transport Protocol'] ?? NOT_PROVIDED,
-            description: el['Description'] ?? NOT_PROVIDED,
-            assignee: el['Assignee'] ?? NOT_PROVIDED,
-            contact: el['Contact'] ?? NOT_PROVIDED,
-            reg_date: el['Registration Date'] ?? NOT_PROVIDED,
-            modified_date: el['Modification Date'] ?? NOT_PROVIDED,
-            reference: el['Reference'] ?? NOT_PROVIDED,
-            serviceCode: el['Service Code'] ?? NOT_PROVIDED,
-            unauthorizedUseReported: el['Unauthorized Use Reported'] ?? NOT_PROVIDED,
-            assignmentNotes: el['Assignment Notes'] ?? NOT_PROVIDED
-        });
+
+    db.info().then(function (result) {
+        if (result.doc_count >= data.length) {
+            return;
+        }
+        if (data.length) {
+            _initDbFromData(data);
+        }
+    }).catch(console.error);
+
+    function _initDbFromData(data) {
+        let services = [];
+        for (let index = 0; index < data.length; index++) {
+            const el = data[index];
+            services.push({
+                serviceName: el['Service Name'] ?? NOT_PROVIDED,
+                servicePort: parseInt(el['Port Number']) ?? NOT_PROVIDED,
+                transportProtocol: el['Transport Protocol'] ?? NOT_PROVIDED,
+                description: el['Description'] ?? NOT_PROVIDED,
+                assignee: el['Assignee'] ?? NOT_PROVIDED,
+                contact: el['Contact'] ?? NOT_PROVIDED,
+                reg_date: el['Registration Date'] ?? NOT_PROVIDED,
+                modified_date: el['Modification Date'] ?? NOT_PROVIDED,
+                reference: el['Reference'] ?? NOT_PROVIDED,
+                serviceCode: el['Service Code'] ?? NOT_PROVIDED,
+                unauthorizedUseReported: el['Unauthorized Use Reported'] ?? NOT_PROVIDED,
+                assignmentNotes: el['Assignment Notes'] ?? NOT_PROVIDED
+            });
+        }
+        db.bulkDocs(services);
     }
-    db.bulkDocs(services);
 }
 
 export default () => {
@@ -45,9 +57,18 @@ export default () => {
                 console.error(err);
                 return;
             }
-            console.log('Building db...');
-            initDb(output);
-            console.log('Done.');
+            let doInit = new Promise((resolve, reject) => {
+                try {
+                    console.log('Building db...');
+                    initDb(output);
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
+            });
+            doInit.then(() => {
+                console.log('Done.');
+            });
         });
     });
     return;
