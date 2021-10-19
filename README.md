@@ -13,6 +13,7 @@ $ npm run watch
 $ npm install -g .       # install snpn globally
 $ snpn -h
 $ snpn i                 # init database
+$ npm test               # run tests
 $ npm uninstall -g snpn  # uninstall
 ```
 
@@ -33,10 +34,11 @@ Commands:
 ```
 
 ```
-$ snpn p 5432
+$ snpn p 10 5432
+Looking up services with port 10...
+ (tcp)  Unassigned
+ (udp)  Unassigned
 Looking up services with port 5432...
-postgresql (tcp)	PostgreSQL Database
-postgresql (udp)	PostgreSQL Database
-postgresql (udp)	PostgreSQL Database
-postgresql (tcp)	PostgreSQL Database
+postgresql (udp)        PostgreSQL Database
+postgresql (tcp)        PostgreSQL Database
 ```
